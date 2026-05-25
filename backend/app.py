@@ -12,12 +12,13 @@ load_dotenv(Path(__file__).parent / ".env")
 
 try:
     from backend.database import (
+        ensure_unique_slug,
         execute,
         fabric_to_api,
         get_admin_by_username,
         get_connection,
         init_db,
-        save_media_for_fabric,
+        save_media_with_cursor,
         uses_sqlite,
     )
     from backend.security import (
@@ -34,12 +35,13 @@ try:
     )
 except ImportError:
     from database import (
+        ensure_unique_slug,
         execute,
         fabric_to_api,
         get_admin_by_username,
         get_connection,
         init_db,
-        save_media_for_fabric,
+        save_media_with_cursor,
         uses_sqlite,
     )
     from security import (
@@ -280,6 +282,7 @@ def create_fabric():
 
     conn = get_connection()
     cur = conn.cursor()
+    payload["slug"] = ensure_unique_slug(cur, payload["slug"])
     insert_params = (
         payload["slug"],
         payload["name"],
@@ -328,15 +331,17 @@ def create_fabric():
                 "sort_order": 0,
             }
         ]
-        save_media_for_fabric(new_id, media)
+        save_media_with_cursor(cur, new_id, media)
         conn.commit()
         execute(cur, "SELECT * FROM fabrics WHERE id = %s", (new_id,))
         row = cur.fetchone()
-    except Exception:
+    except Exception as exc:
         conn.rollback()
         cur.close()
         conn.close()
-        return jsonify({"error": "Could not save fabric. Check slug is unique."}), 400
+        if os.environ.get("FLASK_DEBUG", "0") == "1":
+            return jsonify({"error": f"Could not save fabric: {exc}"}), 400
+        return jsonify({"error": "Could not save fabric. Please check all fields and try again."}), 400
     cur.close()
     conn.close()
     return jsonify(fabric_to_api(row)), 201
@@ -395,6 +400,7 @@ def update_fabric(fabric_id):
         return jsonify({"error": str(exc)}), 400
 
     try:
+        payload["slug"] = ensure_unique_slug(cur, payload["slug"], exclude_id=fabric_id)
         execute(
             cur,
             """
@@ -428,15 +434,17 @@ def update_fabric(fabric_id):
                 "sort_order": 0,
             }
         ]
-        save_media_for_fabric(fabric_id, media)
+        save_media_with_cursor(cur, fabric_id, media)
         conn.commit()
         execute(cur, "SELECT * FROM fabrics WHERE id = %s", (fabric_id,))
         row = cur.fetchone()
-    except Exception:
+    except Exception as exc:
         conn.rollback()
         cur.close()
         conn.close()
-        return jsonify({"error": "Could not update fabric."}), 400
+        if os.environ.get("FLASK_DEBUG", "0") == "1":
+            return jsonify({"error": f"Could not update fabric: {exc}"}), 400
+        return jsonify({"error": "Could not update fabric. Please check all fields and try again."}), 400
     cur.close()
     conn.close()
     return jsonify(fabric_to_api(row))

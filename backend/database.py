@@ -416,9 +416,8 @@ def get_media_for_fabric(fabric_id: int) -> list[dict]:
     ]
 
 
-def save_media_for_fabric(fabric_id: int, media_list: list[dict]):
-    conn = get_connection()
-    cur = conn.cursor()
+def save_media_with_cursor(cur, fabric_id: int, media_list: list[dict]):
+    """Save media using an open cursor (same transaction as fabric insert/update)."""
     execute(cur, "DELETE FROM fabric_media WHERE fabric_id = %s", (fabric_id,))
     for item in media_list:
         execute(
@@ -435,9 +434,35 @@ def save_media_for_fabric(fabric_id: int, media_list: list[dict]):
                 item.get("sort_order", 0),
             ),
         )
+
+
+def save_media_for_fabric(fabric_id: int, media_list: list[dict]):
+    conn = get_connection()
+    cur = conn.cursor()
+    save_media_with_cursor(cur, fabric_id, media_list)
     conn.commit()
     cur.close()
     conn.close()
+
+
+def ensure_unique_slug(cur, slug: str, exclude_id: int | None = None) -> str:
+    """Return slug or slug-2, slug-3, … if the base slug is already taken."""
+    base = slug
+    candidate = slug
+    suffix = 2
+    while True:
+        if exclude_id is not None:
+            execute(
+                cur,
+                "SELECT id FROM fabrics WHERE slug = %s AND id != %s",
+                (candidate, exclude_id),
+            )
+        else:
+            execute(cur, "SELECT id FROM fabrics WHERE slug = %s", (candidate,))
+        if not cur.fetchone():
+            return candidate
+        candidate = f"{base}-{suffix}"
+        suffix += 1
 
 
 def fabric_to_api(row) -> dict:
