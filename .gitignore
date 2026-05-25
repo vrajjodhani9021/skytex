@@ -1,0 +1,34 @@
+# Environment and secrets — never commit
+.env
+backend/.env
+*.env.local
+
+# Local SQLite (legacy)
+*.db
+backend/fabrics.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.venv/
+venv/
+env/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+.DS_Store
+
+# Uploaded images stored by admin UI (do not commit uploads)
+frontend/assets/uploads/
+
+# Local debug logs
+*.log
+backend/app_log.txt
+backend/app_stderr.txt
+backend/app_stdout.txt
+import_test.txt

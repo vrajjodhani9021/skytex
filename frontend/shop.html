@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Sky Tex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="Sky Tex Logo" class="logo__img" />
+        <span>Sky Tex</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="is-active">Shop</a>
+        <a href="collections.html">Collections</a>
+        <a href="swatches.html">Swatches</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html" class="nav-admin">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <header class="shop-header">
+      <p class="hero__eyebrow">All fabrics</p>
+      <h1 id="shop-title">The complete library.</h1>
+      <p><span id="fabric-count">Loading…</span> — filter by material, color, or use.</p>
+    </header>
+
+    <div class="search-bar">
+      <input type="search" id="search-input" placeholder="Search fabrics…" aria-label="Search" />
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <h4>Material</h4>
+        <div class="filter-pills">
+          <button type="button" data-filter="material" data-value="Cotton">Cotton</button>
+          <button type="button" data-filter="material" data-value="Linen">Linen</button>
+          <button type="button" data-filter="material" data-value="Silk">Silk</button>
+          <button type="button" data-filter="material" data-value="Wool">Wool</button>
+          <button type="button" data-filter="material" data-value="Synthetic">Synthetic</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h4>Color</h4>
+        <div class="filter-pills">
+          <button type="button" data-filter="color" data-value="Ivory">Ivory</button>
+          <button type="button" data-filter="color" data-value="Sand">Sand</button>
+          <button type="button" data-filter="color" data-value="Taupe">Taupe</button>
+          <button type="button" data-filter="color" data-value="Charcoal">Charcoal</button>
+          <button type="button" data-filter="color" data-value="Sage">Sage</button>
+          <button type="button" data-filter="color" data-value="Champagne">Champagne</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h4>Use</h4>
+        <div class="filter-pills">
+          <button type="button" data-filter="use" data-value="Apparel">Apparel</button>
+          <button type="button" data-filter="use" data-value="Quilting">Quilting</button>
+          <button type="button" data-filter="use" data-value="Upholstery">Upholstery</button>
+          <button type="button" data-filter="use" data-value="Curtains">Curtains</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="fabric-grid" class="product-grid" style="padding-bottom:4rem"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-bottom">© 2026 Sky Tex Textile Atelier. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

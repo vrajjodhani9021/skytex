@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — Sky Tex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="Sky Tex Logo" class="logo__img" />
+        <span>Sky Tex</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="is-active">Shop</a>
+        <a href="collections.html">Collections</a>
+        <a href="swatches.html">Swatches</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html" class="nav-admin">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container content-page">
+    <div id="product-main">Loading product…</div>
+
+    <section class="section">
+      <div class="section__header">
+        <h2>You may also like</h2>
+        <p><a href="shop.html">View all</a></p>
+      </div>
+      <div id="related-grid" class="product-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-bottom">© 2026 Sky Tex Textile Atelier. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/product.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+.env
+.env.local
+fabrics.db
+*.db
+__pycache__/
+*.pyc
+.venv/
+venv/
